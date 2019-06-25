@@ -1,4 +1,4 @@
- import { SubjectsModel, LMSModel, TeachersModel, PupilsModel, GroupsModel, GradebooksModel } from './schools';
+import { SubjectsModel, LMSModel, TeachersModel, PupilsModel, GroupsModel, GradebooksModel } from './schools';
 
 const history = new SubjectsModel({
     title: 'History',
@@ -102,7 +102,7 @@ let data2 = {
             "subject": "aaaaa"
         }
     ],
-    
+
 }
 
 
@@ -135,7 +135,7 @@ let newTeacherInfo = {
             "subject": "aaaaa"
         }
     ],
-    
+
 }
 // Create new Teacher from Teacher's data
 const teachers = new TeachersModel();
@@ -194,15 +194,20 @@ const pupils = new PupilsModel();
 const pupil = pupils.add(pupildata);
 
 
-// will return Pupils data including pupil's id
-pupils.read(pupil.id);
 
-// will update Pupil. This method should use the same validation as a constructor method
-pupils.update(pupil.id, updatedProfile);
+if (pupil && pupil.id) {
+    // will return Pupils data including pupil's id
+    pupils.read(pupil.id);
+
+    // will update Pupil. This method should use the same validation as a constructor method
+    pupils.update(pupil.id, updatedProfile);
+
+    // will remove pupil
+    pupils.remove(pupil.id);
+}
 
 
-// will remove pupil
-pupils.remove(pupil.id);
+
 
 console.log('------------ pupils end -------------');
 const room = 236;
@@ -212,16 +217,17 @@ const groups = new GroupsModel();
 const groupId = groups.add(room);
 
 // Add this pupil to this group
-groups.addPupil(groupId, pupil);
+if(pupil) {
+    groups.addPupil(groupId, pupil);
+}
 
 // Remove this pupil from this group
 // groups.removePupil(groupId, pupil.id);
 
 
-
 // Update room for this group
 groups.update(groupId, {
-  room: 237
+    room: 237
 });
 
 // Read information about group
@@ -248,12 +254,13 @@ const gradebookId = gradebooks.add(level, groupId);
 gradebooks.clear();
 
 const record = {
-  pupilId: pupilId,
-  teacherId: teacherId,
-  subjectId: history.id,
-  lesson: 1,
-  mark: 9
+    pupilId: pupilId,
+    teacherId: teacherId,
+    subjectId: history.id,
+    lesson: 1,
+    mark: 9
 };
+
 
 gradebooks.addRecord(gradebookId, record);
 

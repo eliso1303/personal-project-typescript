@@ -37,11 +37,14 @@ export class GroupsModel {
 
     removePupil(groupId: string, pupilId: string) {
         if (this.groups.has(groupId)) {
-            for (let item of this.groups.get(groupId).pupils) {
-                if (item.id === pupilId) {
-                    let group = this.groups.get(groupId);
-                    if (group) {
-                        return group.pupils.pop();
+            let group = this.groups.get(groupId);
+            if (group) {
+                for (let item of group.pupils) {
+                    if (item.id === pupilId) {
+                        let group = this.groups.get(groupId);
+                        if (group) {
+                            return group.pupils.pop();
+                        }
                     }
                 }
             }
@@ -52,7 +55,10 @@ export class GroupsModel {
 
     update(groupId: string, obj: { room: number; }) {
         if (this.groups.has(groupId)) {
-            this.groups.get(groupId).roomNum = obj.room;
+            let group = this.groups.get(groupId);
+            if (group) {
+                group.roomNum = obj.room;
+            }
         } else {
             throw new Error("We havn't such group!");
         }
@@ -60,11 +66,15 @@ export class GroupsModel {
 
     read(groupId: string) {
         if (this.groups.has(groupId)) {
-            let groupInfo = {
-                'id': groupId,
-                'room': this.groups.get(groupId).roomNum
-            };
-            return groupInfo;
+            let group = this.groups.get(groupId);
+            if (group) {
+                let groupInfo = {
+                    'id': groupId,
+                    'room': group.roomNum
+                };
+
+                return groupInfo;
+            }
         }
         else {
             throw new Error("group not found")

@@ -1,7 +1,7 @@
 import { SubjectSchema } from './subjectsmodel';
 
 export class LMSModel {
-    subjects: Map<string, SubjectSchema>;
+    subjects: Map<string | undefined, SubjectSchema>;
     constructor() {
         this.subjects = new Map();
     }
@@ -24,7 +24,7 @@ export class LMSModel {
         if (arguments.length > 0) {
             throw new Error("must not be arguments")
         } else {
-            let registeredSubjects: object[] | { 'subjectId': string; }[] = [];
+            let registeredSubjects: object[] | { 'subjectId': string | undefined; }[] = [];
             this.subjects.forEach((value, key, ownMap) => {
                 registeredSubjects.push({ 'subjectId': key });
             });

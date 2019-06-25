@@ -54,22 +54,28 @@ export class GradebooksModel {
 
     read(gradebookId: string, pupilId: string) {
         const grade = this.grades.get(gradebookId);
-
+        if (this.grades.has('pupilId')) {
+            let name = this.grades.get('pupilId').title;
+        }
         let gradebookRead = {
-            'name': this.groups.pupils.name,
+            'name': this.groups.get(pupilId).name,
             "records": [
                 {
-                    teacher: 'Elizabeth Holms',
-                    subject: 'History',
-                    lesson: 1,
-                    mark: 9
+                    "teacher": this.grades,
+                    "subject": this.lms,
+                    "lesson": this.lms,
+                    "mark": this.grades
                 }
             ]
         };
-        console.log(grade);
+        console.log(gradebookRead);
     }
 
     readAll(gradebookId: string) {
-        this.read(gradebookId, )
+        if (this.groups.get("id") == gradebookId) {
+            return Array.from(this.groups);
+        } else {
+            throw new Error("error");
+        }
     }
 }
